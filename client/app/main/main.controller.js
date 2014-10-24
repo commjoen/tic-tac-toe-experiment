@@ -9,7 +9,7 @@ angular.module('ticTacToeExperimentApp')
 
     self.gameState = {
       grid: [
-        [' x', ' ', ' '],
+        [' ', ' ', ' '],
         [' ', ' ', ' '],
         [' ', ' ', ' ']
       ],
@@ -39,14 +39,14 @@ angular.module('ticTacToeExperimentApp')
       mySocket.on('stateUpdated', function (state) {
         self.gameState = state;
         self.renderGameState();
-        console.log(state);
+        console.log("Incoming state: ", state);
       });
     }
 
     self.makeMove = function(index) {
       // TODO Get coords
       var x = Math.floor(index / 3);
-      var y = index - 3*y;
+      var y = index - 3*x;
       mySocket.emit('move', {
         x: x,
         y: y
