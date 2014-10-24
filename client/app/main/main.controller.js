@@ -1,5 +1,5 @@
 angular.module('ticTacToeExperimentApp')
-  .controller('MainCtrl', function ($scope, mySocket, $famous){
+  .controller('MainCtrl', function ($scope, mySocket, $famous, $timeout){
     var self = this;
 
     self.state = 'init';
@@ -18,6 +18,7 @@ angular.module('ticTacToeExperimentApp')
           self.renderedGameState.push(value);
         });
       });
+      $timeout( function() {if(self.gameState.winner !== undefined) alert("WE HAVE A WINNER!")}, 20);      
     };
     self.message = '';
 
