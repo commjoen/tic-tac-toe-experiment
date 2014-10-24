@@ -7,29 +7,9 @@ angular.module('ticTacToeExperimentApp')
     self.colorX = 'green';
     self.colorO = 'red';
 
-    self.gameState = {
-      grid: [
-        [' ', ' ', ' '],
-        [' ', ' ', ' '],
-        [' ', ' ', ' ']
-      ],
-      'x': 'nameplayer1',
-      'o': 'nameplayer2',
-      'turn': 'x'};
+    self.gameState = {};
 
     self.renderedGameState = [];
-
-    self.registerMove = function (index){
-      var xAxis = Math.floor(index / 3);
-      var yAxis = index - 3 * xAxis;
-      self.gameState.grid[xAxis][yAxis] = self.gameState.turn;
-      self.verifyWinningMove(xAxis, yAxis, self.gameState.turn);
-      self.renderGameState();
-    }
-
-    self.verifyWinningMove = function (xAxis, yAxis, char){
-
-    }
 
     self.renderGameState = function (){
       self.renderedGameState = [];
@@ -62,13 +42,20 @@ angular.module('ticTacToeExperimentApp')
       });
     }
 
+    self.positionFree = function(x, y) {
+      return self.gameState.grid[x][y] == null;
+    }
+
     self.makeMove = function(index) {
       // TODO Get coords
       var x = Math.floor(index / 3);
       var y = index - 3*x;
-      mySocket.emit('move', {
-        x: x,
-        y: y
-      });
+
+      if( self.positionFree(x,y) ) {
+         mySocket.emit('move', {
+            x: x,
+            y: y
+         });
+       }     
     }
   });
