@@ -28,13 +28,16 @@ function getGroupId() {
 
 var currentState = {};
 
+function createGrid() {
+  return [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null]
+  ];
+}
+
 function createInitialState() {
-  return {
-    'grid': [
-       [null, null, null],
-       [null, null, null],
-       [null, null, null]
-     ]};
+  return {'grid': createGrid()};
 }
 
 function connectFirst(groupId, name) {
@@ -47,17 +50,63 @@ function connectSecond(groupId, name) {
   currentState[groupId].turn  ='x';
 }
 
-function checkGrid() {
-  // TODO Check cheating
-  // TODO Check winner
+function checkGrid(groupId) {
+  var state = currentState[groupId];
+
+  // Check rows
+  for(var i = 0; i < state.length; i++) {
+    if(state[i][0] === state[i][1] && state[i][1] === state[i][2]) {
+      var grid = createGrid();
+      grid[i][0] = state[i][0];
+      grid[i][1] = state[i][1];
+      grid[i][2] = state[i][2];
+	  return grid;
+    }
+  }
+
+  // Check colums
+  for(var i = 0; i < state.length; i++) {
+    if(state[0][i] === state[1][i] && state[1][i] === state[2][i]) {
+      var grid = createGrid();
+      grid[0][i] = state[0][i];
+      grid[1][i] = state[0][i];
+      grid[2][i] = state[0][i];
+	  return grid;
+    }
+  }
+
+  // Check diagonals
+  if(state[0][0] === state[1][1] && state[1][1] === state[2][2]) {
+    var grid = createGrid();
+    grid[0][0] = state[0][0];
+    grid[1][1] = state[1][1];
+    grid[2][2] = state[2][2];
+    return grid;
+  }
+  if(state[2][0] === state[1][1] && state[1][1] === state[0][2]) {
+    var grid = createGrid();
+    grid[2][0] = state[2][0];
+    grid[1][1] = state[1][1];
+    grid[0][2] = state[0][2];
+    return grid;
+  }
+
+  return null;
 }
 
 function updateGrid(groupId, move) {
-  currentState[groupId] = state;
-  if(currentState[groupId].turn === 'x') {
-    currentState[groupId].turn  ='o';
-  } else if(currentState[groupId].turn === 'o') {
-    currentState[groupId].turn  ='x';
+  var state = currentState[groupId];
+  state[move.x][move.y] = state.turn;
+
+  if(state.turn === 'x') {
+	state.turn  ='o';
+  } else if(state.turn === 'o') {
+	state.turn  ='x';
+  }
+
+  var winner = checkGrid(groupId);
+  if(winner) {
+	state.winner = winner;
   }
 }
 
