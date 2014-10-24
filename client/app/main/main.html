@@ -1,7 +1,7 @@
-<fa-app style="position: fixed;top: 0;right: 0;bottom: 0;left: 0;">
+<fa-app class="board">
     <fa-sequential-layout>
         <fa-grid-layout fa-options="{dimensions:[3,3]}">
-            <fa-surface ng-repeat="item in mainCtrl.renderedGameState" style="height:200px;">{{item}}</fa-surface>
+            <fa-surface ng-repeat="item in mainCtrl.renderedGameState" class="cell">{{item}}</fa-surface>
         </fa-grid-layout>
 
 

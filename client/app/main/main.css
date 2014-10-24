@@ -28,3 +28,14 @@
     margin-top: 70px;
     border-top: 1px solid #E5E5E5;
 }
+
+.board {
+    height: 300px;
+    width: 300px;
+}
+
+.cell {
+    border: 1px solid #cccccc;
+    height: 100px;
+    width: 100px;
+}
