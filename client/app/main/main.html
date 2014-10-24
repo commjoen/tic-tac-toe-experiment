@@ -1,8 +1,10 @@
-<fa-app style="height: 200px"><fa-surface fa-background-color="'red'">Hello world</fa-surface></fa-app>
+<fa-app style="position: fixed;top: 0;right: 0;bottom: 0;left: 0;">
+    <fa-grid-layout fa-options="{dimensions:[3,3]}">
+        <fa-surface ng-repeat="item in mainCtrl.renderedGameState" style="height:200px;">{{item}}</fa-surface>
+        </fa-modifier>
+    </fa-grid-layout>
+</fa-app>
 
-<div ng-repeat="setX in mainCtrl.gameState.grid">
-    <div ng-repeat="value in setX">{{value}}</div>
-</div>
 <div>
-  {{mainCtrl.message}}
+    {{mainCtrl.message}}
 </div>
