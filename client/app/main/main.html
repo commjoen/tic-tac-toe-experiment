@@ -7,7 +7,7 @@
     <fa-app class="board">
         <fa-flexible-layout fa-options="{ratios:[0.7,0.3], direction:0}">
             <fa-grid-layout fa-options="{dimensions:[3,3]}">
-                <fa-surface ng-repeat="item in mainCtrl.renderedGameState track by $index" class="cell">{{item}}</fa-surface>
+                <fa-surface ng-repeat="item in mainCtrl.renderedGameState track by $index" ng-click="mainCtrl.makeMove($index)" class="cell">{{item}}</fa-surface>
             </fa-grid-layout>
 
             <fa-flexible-layout fa-options="{ratios:[0.4,0.4,0.1], direction:1}" fa-size="[220, undefined]">

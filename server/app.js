@@ -51,11 +51,11 @@ function connectSecond(groupId, name) {
 }
 
 function checkGrid(groupId) {
-  var state = currentState[groupId];
+  var state = currentState[groupId].grid;
 
   // Check rows
   for(var i = 0; i < state.length; i++) {
-    if(state[i][0] === state[i][1] && state[i][1] === state[i][2]) {
+    if(state[i][0] !== null && state[i][0] === state[i][1] && state[i][1] === state[i][2]) {
       var grid = createGrid();
       grid[i][0] = state[i][0];
       grid[i][1] = state[i][1];
@@ -66,7 +66,7 @@ function checkGrid(groupId) {
 
   // Check colums
   for(var i = 0; i < state.length; i++) {
-    if(state[0][i] === state[1][i] && state[1][i] === state[2][i]) {
+    if(state[0][i] !== null && state[0][i] === state[1][i] && state[1][i] === state[2][i]) {
       var grid = createGrid();
       grid[0][i] = state[0][i];
       grid[1][i] = state[0][i];
@@ -76,14 +76,14 @@ function checkGrid(groupId) {
   }
 
   // Check diagonals
-  if(state[0][0] === state[1][1] && state[1][1] === state[2][2]) {
+  if(state[0][0] !== null && state[0][0] === state[1][1] && state[1][1] === state[2][2]) {
     var grid = createGrid();
     grid[0][0] = state[0][0];
     grid[1][1] = state[1][1];
     grid[2][2] = state[2][2];
     return grid;
   }
-  if(state[2][0] === state[1][1] && state[1][1] === state[0][2]) {
+  if(state[2][0] !== null && state[2][0] === state[1][1] && state[1][1] === state[0][2]) {
     var grid = createGrid();
     grid[2][0] = state[2][0];
     grid[1][1] = state[1][1];
@@ -96,7 +96,7 @@ function checkGrid(groupId) {
 
 function updateGrid(groupId, move) {
   var state = currentState[groupId];
-  state[move.x][move.y] = state.turn;
+  state.grid[move.x][move.y] = state.turn;
 
   if(state.turn === 'x') {
 	state.turn  ='o';

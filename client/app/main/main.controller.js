@@ -50,6 +50,7 @@ angular.module('ticTacToeExperimentApp')
 
       mySocket.on('stateUpdated', function (state){
         self.gameState = state;
+        self.renderGameState();
         console.log(state);
         if (self.gameState.turn === 'x') {
           self.colorX = 'green';
@@ -61,10 +62,14 @@ angular.module('ticTacToeExperimentApp')
       });
     }
 
+<<<<<<< HEAD
     self.makeMove = function (){
+=======
+    self.makeMove = function(index) {
+>>>>>>> a1577620785f6276523bf9d4b137400273b39175
       // TODO Get coords
-      var x = 0;
-      var y = 0;
+      var x = Math.floor(index / 3);
+      var y = index - 3*y;
       mySocket.emit('move', {
         x: x,
         y: y
