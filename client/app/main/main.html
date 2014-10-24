@@ -1,12 +1,16 @@
-<fa-app class="board">
+<div class="boardContainer">
+	<fa-app class="board">
     <fa-sequential-layout>
         <fa-grid-layout fa-options="{dimensions:[3,3]}">
-            <fa-surface ng-repeat="item in mainCtrl.renderedGameState" class="cell">{{item}}</fa-surface>
+            <fa-surface ng-repeat="item in mainCtrl.renderedGameState track by $index" class="cell">{{item}}</fa-surface>
         </fa-grid-layout>
 
 
-        <fa-surface>
-            {{mainCtrl.message}}
-        </fa-surface>
+       
     </fa-sequential-layout>
 </fa-app>
+</div>
+
+ <fa-surface>
+            {{mainCtrl.message}}
+        </fa-surface>
