@@ -4,9 +4,9 @@ angular.module('ticTacToeExperimentApp')
 
     self.gameState = {
       'grid': [
-        [' ', ' ', ' '],
-        [' ', ' ', ' '],
-        [' ', ' ', ' ']
+        ['x ', 'x ', ' '],
+        ['o ', '0 ', ' '],
+        ['x', ' ', 'x ']
       ],
       'x': 'nameplayer1',
       'o': 'nameplayer2',
