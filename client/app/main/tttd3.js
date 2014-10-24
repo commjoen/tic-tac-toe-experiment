@@ -11,12 +11,6 @@ app.controller('TTTd3Ctrl', ['$scope','$interval', function($scope, $interval){
       x: 'nameplayer1',
       o: 'nameplayer2',
       turn: 'o'};
-
-    // $interval(function(){
-    //     var hour=$scope.salesData.length+1;
-    //     var sales= Math.round(Math.random() * 100);
-    //     $scope.salesData.push({hour: hour, sales:sales});
-    // }, 1000, 10);
 }]);
 
 app.directive('grid', function($parse, $window){
@@ -34,19 +28,14 @@ app.directive('grid', function($parse, $window){
       template:"<svg width='300' height='300'></svg>",
         link: function(scope, elem, attrs) {
           
-           var exp = $parse(attrs.gridData);
-           var gridData = exp(scope);
-           var d3 = $window.d3;
-           var rawSvg = elem.find('svg');
-           var svg = d3.select(rawSvg[0]);
+          var exp = $parse(attrs.gridData);
+          var gridData = exp(scope);
+          var d3 = $window.d3;
+          var rawSvg = elem.find('svg');
+          var svg = d3.select(rawSvg[0]);
 
           var x = d3.scale.identity().domain([0,300]);
           var y = d3.scale.identity().domain([0,300]);
- 
-// scope.$watchCollection(exp, function(newVal, oldVal){
-//                salesDataToPlot=newVal;
-//                redrawLineChart();
-//            });
 
           svg.selectAll("line.x")
             .data(x.ticks(3))
@@ -58,51 +47,51 @@ app.directive('grid', function($parse, $window){
             .attr("y2", 300)
             .style("stroke", "#ccc"); 
           
-            svg.selectAll("line.y")
-              .data(y.ticks(3))
-              .enter().append("line")
-              .attr("class", "y")
-              .attr("x1", 0)
-              .attr("x2", 300)
-              .attr("y1", y)
-              .attr("y2", y)
-              .style("stroke", "#ccc"); 
+          svg.selectAll("line.y")
+            .data(y.ticks(3))
+            .enter().append("line")
+            .attr("class", "y")
+            .attr("x1", 0)
+            .attr("x2", 300)
+            .attr("y1", y)
+            .attr("y2", y)
+            .style("stroke", "#ccc"); 
 
-            var circleData = [];
-            for(var y=0; y<3; y++) {
-              for(var x=0; x<3; x++) {
-                if(gridData[y][x] === "o") {
-                  circleData.push({x: toCircleXY(x), y: toCircleXY(y)})
-                }
+          var circleData = [];
+          for(var y=0; y<3; y++) {
+            for(var x=0; x<3; x++) {
+              if(gridData[y][x] === "o") {
+                circleData.push({x: toCircleXY(x), y: toCircleXY(y)})
               }
             }
+          }
  
-            var circles = svg.selectAll("circle")
-                      .data(circleData)
-                      .enter()
-                      .append("circle");
+          var circles = svg.selectAll("circle")
+              .data(circleData)
+              .enter()
+              .append("circle");
 
-            var circleAttributes = circles
-                   .attr("cx", function (d) { return d.x; })
-                   .attr("cy", function (d) { return d.y; })
-                   .attr("r", 30)
-                   .style("fill", "purple");
+          var circleAttributes = circles
+             .attr("cx", function (d) { return d.x; })
+             .attr("cy", function (d) { return d.y; })
+             .attr("r", 30)
+             .style("fill", "purple");
 
-            var crossData = [];
-            for(var y=0; y<3; y++) {
-              for(var x=0; x<3; x++) {
-                if(gridData[y][x] === "x") {
-                  crossData.push({x: toCrossXY(x), y: toCrossXY(y)})
-                }
+          var crossData = [];
+          for(var y=0; y<3; y++) {
+            for(var x=0; x<3; x++) {
+              if(gridData[y][x] === "x") {
+                crossData.push({x: toCrossXY(x), y: toCrossXY(y)})
               }
             }
+          }
 
-            var cross_shape = function(cross) {
-                var points = [ [cross.x,cross.y], [cross.x - 100, cross.y - 100], [cross.x - 50, cross.y - 50], [cross.x, cross.y - 100], [cross.x -100, cross.y]];
-                return d3.svg.line()(points);
-              };
+          var cross_shape = function(cross) {
+            var points = [ [cross.x,cross.y], [cross.x - 100, cross.y - 100], [cross.x - 50, cross.y - 50], [cross.x, cross.y - 100], [cross.x -100, cross.y]];
+            return d3.svg.line()(points);
+          };
              
-            svg.selectAll("path")
+          svg.selectAll("path")
               .data(crossData).enter().append("svg:path")
               .attr("d", cross_shape)
               .attr("stroke", "green")
