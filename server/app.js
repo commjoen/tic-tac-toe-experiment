@@ -23,14 +23,17 @@ server.listen(config.port, config.ip, function () {
 // socket.io
 var io = require('socket.io')(server);
 io.on('connection', function (socket) {
-  setInterval(function() {
-    socket.emit('news', Math.random());
-  }, 1000);
+  socket.join('tictactoe');
 
-  socket.on('my other event', function (data) {
+//  socket.on('my other event', function (data) {
 //    console.log(data);
-  });
+//  });
 });
+
+setInterval(function() {
+  io.to('tictactoe').emit('news', Math.random());
+}, 1000);
+
 
 // Expose app
 exports = module.exports = app;
