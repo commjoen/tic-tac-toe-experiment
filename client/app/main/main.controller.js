@@ -2,7 +2,7 @@ angular.module('ticTacToeExperimentApp')
   .controller('MainCtrl', function ($scope, mySocket) {
     var self = this;
 
-    $scope.state = 'init';
+    self.state = 'init';
 
     self.gameState = {
       'grid': [
@@ -27,8 +27,8 @@ angular.module('ticTacToeExperimentApp')
 
     self.renderGameState();
 
-    $scope.joinGame = function(playerName) {
-      $scope.state = 'joined';
+    self.joinGame = function(playerName) {
+      self.state = 'joined';
 
       mySocket.emit('join', playerName);
 
@@ -38,7 +38,7 @@ angular.module('ticTacToeExperimentApp')
       });
     }
 
-    $scope.makeMove = function() {
+    self.makeMove = function() {
       // TODO Get coords
       var x = 0;
       var y = 0;
