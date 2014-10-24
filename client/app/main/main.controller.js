@@ -1,14 +1,12 @@
 angular.module('ticTacToeExperimentApp')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', function ($scope, mySocket) {
     var self = this;
 
-    self.message = 'boo';
+    self.message = '';
 
-    var socket = io.connect('http://localhost');
-    socket.on('news', function (data) {
+    mySocket.on('news', function (data) {
       console.log(data);
       self.message = data;
-      $scope.$digest();
-      socket.emit('my other event', { my: 'data' });
+      mySocket.emit('my other event', { my: 'data' });
     });
   });
