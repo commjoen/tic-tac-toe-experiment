@@ -2,10 +2,11 @@
 
 angular.module('ticTacToeExperimentApp')
   .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [];
+    var self =this;
+
 
     $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
+      self.awesomeThings = awesomeThings;
     });
 
   });
