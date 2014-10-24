@@ -1,4 +1,9 @@
-<div class="boardContainer">
+<div ng-if="state === 'init'">
+  <input type="text" ng-model="playerName"></input>
+  <button ng-click="joinGame(playerName)">Join</button>
+</div>
+
+<div class="boardContainer" ng-if="state !== 'init'">
     <fa-app class="board">
         <fa-flexible-layout fa-options="{ratios:[0.8,0.2], direction:0}">
             <fa-grid-layout fa-options="{dimensions:[3,3]}">
