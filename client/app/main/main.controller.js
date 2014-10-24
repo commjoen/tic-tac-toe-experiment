@@ -2,20 +2,49 @@ angular.module('ticTacToeExperimentApp')
   .controller('MainCtrl', function ($scope, mySocket) {
     var self = this;
 
+    self.state = 'init';
+
     self.gameState = {
       'grid': [
-        ['1', '2', '3'],
-        ['4', '5', '6'],
-        ['7', '8', '9']
+        ['x ', 'x ', ' '],
+        ['o ', 'o ', ' '],
+        ['x', ' ', 'x ']
       ],
       'x': 'nameplayer1',
       'o': 'nameplayer2',
       'turn': 'x'};
 
+    self.renderedGameState = [];
+
+    self.renderGameState = function(){
+      angular.forEach(self.gameState.grid, function(value){
+        angular.forEach(value, function(value){
+          self.renderedGameState.push(value);
+        });
+      });
+    };
     self.message = '';
 
-    mySocket.on('news', function (data) {
-      self.message = data;
-      mySocket.emit('my other event', { my: 'data' });
-    });
+    self.renderGameState();
+
+    self.joinGame = function(playerName) {
+      self.state = 'joined';
+
+      mySocket.emit('join', playerName);
+
+      mySocket.on('stateUpdated', function (state) {
+        self.gameState = state;
+        console.log(state);
+      });
+    }
+
+    self.makeMove = function() {
+      // TODO Get coords
+      var x = 0;
+      var y = 0;
+      mySocket.emit('move', {
+        x: x,
+        y: y
+      });
+    }
   });
