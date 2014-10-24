@@ -2,7 +2,8 @@
 	<fa-app class="board">
     <fa-sequential-layout>
         <fa-grid-layout fa-options="{dimensions:[3,3]}">
-            <fa-surface ng-repeat="item in mainCtrl.renderedGameState track by $index" class="cell">{{item}}</fa-surface>
+            <fa-surface ng-repeat="item in mainCtrl.renderedGameState track by $index" class="cell"
+            ng-click="mainCtrl.registerMove($index)">{{item}}</fa-surface>
         </fa-grid-layout>
 
 
