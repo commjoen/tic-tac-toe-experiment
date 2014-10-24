@@ -51,7 +51,7 @@ function connectSecond(groupId, name) {
 }
 
 function checkGrid(groupId) {
-  var state = currentState[groupId];
+  var state = currentState[groupId].grid;
 
   // Check rows
   for(var i = 0; i < state.length; i++) {
@@ -96,7 +96,7 @@ function checkGrid(groupId) {
 
 function updateGrid(groupId, move) {
   var state = currentState[groupId];
-  state[move.x][move.y] = state.turn;
+  state.grid[move.x][move.y] = state.turn;
 
   if(state.turn === 'x') {
 	state.turn  ='o';
