@@ -2,11 +2,13 @@ angular.module('ticTacToeExperimentApp')
   .controller('MainCtrl', function ($scope) {
     var self = this;
 
+    self.state = 'init';
+
     self.gameState = {
       'grid': [
-        ['1', '2', '3'],
-        ['4', '5', '6'],
-        ['7', '8', '9']
+        ['x ', 'x ', ' '],
+        ['o ', 'o ', ' '],
+        ['x', ' ', 'x ']
       ],
       'x': 'nameplayer1',
       'o': 'nameplayer2',
@@ -22,9 +24,30 @@ angular.module('ticTacToeExperimentApp')
         });
       });
     };
-    self.message = '';
 
     self.renderGameState();
+
+    self.joinGame = function(playerName) {
+      self.state = 'joined';
+
+//      mySocket.emit('join', playerName);
+//
+//      mySocket.on('stateUpdated', function (state) {
+//        self.gameState = state;
+//        console.log(state);
+//      });
+    };
+
+    self.makeMove = function() {
+      // TODO Get coords
+      var x = 0;
+      var y = 0;
+//      mySocket.emit('move', {
+//        x: x,
+//        y: y
+//      });
+    };
+
 
 
     var swarmHost = new Swarm.Host(String(Math.random()).slice(2));
@@ -50,4 +73,5 @@ angular.module('ticTacToeExperimentApp')
         y: event.clientY
       })
     });
+
   });

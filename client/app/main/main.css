@@ -28,3 +28,32 @@
     margin-top: 70px;
     border-top: 1px solid #E5E5E5;
 }
+
+.boardContainer {
+    position: absolute;
+    left: 20%;
+    top: 20%;
+}
+
+.board {
+    height: 300px;
+    width: 300px;
+}
+
+.cell {
+    border: 1px solid #cccccc;
+    height: 100px;
+    width: 100px;
+    padding: 3px;
+    font-family: Helvetica-Light;
+    font-size: 72px;
+    text-align: center;
+    valign: middle;
+}
+
+.gamerTag {
+    border-radius:15px;
+    box-sizing:border-box;
+    border: 2px white;
+
+}
