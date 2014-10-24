@@ -1,17 +1,32 @@
-<div class="boardContainer">
-	<fa-app class="board">
-    <fa-sequential-layout>
-        <fa-grid-layout fa-options="{dimensions:[3,3]}">
-            <fa-surface ng-repeat="item in mainCtrl.renderedGameState track by $index" class="cell"
-            ng-click="mainCtrl.registerMove($index)">{{item}}</fa-surface>
-        </fa-grid-layout>
-
-
-       
-    </fa-sequential-layout>
-</fa-app>
+<div ng-if="mainCtrl.state === 'init'">
+  <input type="text" ng-model="mainCtrl.playerName"/>
+  <button ng-click="mainCtrl.joinGame(mainCtrl.playerName)">Join</button>
 </div>
 
- <fa-surface>
-            {{mainCtrl.message}}
-        </fa-surface>
+<div class="boardContainer" ng-if="mainCtrl.state !== 'init'">
+    <fa-app class="board">
+        <fa-flexible-layout fa-options="{ratios:[0.7,0.3], direction:0}">
+            <fa-grid-layout fa-options="{dimensions:[3,3]}">
+                <fa-surface ng-repeat="item in mainCtrl.renderedGameState track by $index" class="cell">{{item}}</fa-surface>
+            </fa-grid-layout>
+
+            <fa-flexible-layout fa-options="{ratios:[0.4,0.4,0.1], direction:1}">
+                <fa-modifier fade-in fa-opacity="0.2" opacity-end="1" duration="500">
+                    <fa-surface fa-background-color="'red'" class="gamerTag">
+                        {{mainCtrl.gameState.x}}
+                    </fa-surface>
+                </fa-modifier>
+                <fa-modifier fade-in fa-opacity="0.2" opacity-end="1" duration="500">
+                    <fa-surface fa-background-color="'red'" class="gamerTag">
+                        {{mainCtrl.gameState.o}}
+                    </fa-surface>
+                </fa-modifier>
+                <fa-surface>
+                    {{mainCtrl.message}}
+                </fa-surface>
+            </fa-flexible-layout>
+
+        </fa-flexible-layout>
+    </fa-app>
+</div>
+
