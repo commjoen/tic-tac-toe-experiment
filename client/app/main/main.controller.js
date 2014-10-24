@@ -1,11 +1,11 @@
 angular.module('ticTacToeExperimentApp')
-  .controller('MainCtrl', function ($scope, mySocket, $famous) {
+  .controller('MainCtrl', function ($scope, mySocket, $famous){
     var self = this;
 
     self.state = 'init';
 
-
-
+    self.colorX = 'green';
+    self.colorO = 'red';
 
     self.gameState = {
       grid: [
@@ -19,10 +19,22 @@ angular.module('ticTacToeExperimentApp')
 
     self.renderedGameState = [];
 
-    self.renderGameState = function(){
-      self.renderedGameState=[];
-      angular.forEach(self.gameState.grid, function(value){
-        angular.forEach(value, function(value){
+    self.registerMove = function (index){
+      var xAxis = Math.floor(index / 3);
+      var yAxis = index - 3 * xAxis;
+      self.gameState.grid[xAxis][yAxis] = self.gameState.turn;
+      self.verifyWinningMove(xAxis, yAxis, self.gameState.turn);
+      self.renderGameState();
+    }
+
+    self.verifyWinningMove = function (xAxis, yAxis, char){
+
+    }
+
+    self.renderGameState = function (){
+      self.renderedGameState = [];
+      angular.forEach(self.gameState.grid, function (value){
+        angular.forEach(value, function (value){
           self.renderedGameState.push(value);
         });
       });
@@ -31,15 +43,22 @@ angular.module('ticTacToeExperimentApp')
 
     self.renderGameState();
 
-    self.joinGame = function(playerName) {
+    self.joinGame = function (playerName){
       self.state = 'joined';
 
       mySocket.emit('join', playerName);
 
-      mySocket.on('stateUpdated', function (state) {
+      mySocket.on('stateUpdated', function (state){
         self.gameState = state;
         self.renderGameState();
-        console.log("Incoming state: ", state);
+        console.log(state);
+        if (self.gameState.turn === 'x') {
+          self.colorX = 'green';
+          self.colorO = 'red';
+        } else {
+          self.colorX = 'red';
+          self.colorO = 'green';
+        }
       });
     }
 
