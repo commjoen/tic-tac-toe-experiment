@@ -20,5 +20,14 @@ server.listen(config.port, config.ip, function () {
   console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
 });
 
+// socket.io
+var io = require('socket.io')(server);
+io.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
+
 // Expose app
 exports = module.exports = app;

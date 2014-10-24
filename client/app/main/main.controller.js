@@ -1,12 +1,14 @@
-'use strict';
-
 angular.module('ticTacToeExperimentApp')
-  .controller('MainCtrl', function ($scope, $http) {
-    var self =this;
+  .controller('MainCtrl', function ($scope) {
+    var self = this;
 
+    self.message = 'boo';
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      self.awesomeThings = awesomeThings;
+    var socket = io.connect('http://localhost');
+    socket.on('news', function (data) {
+      console.log(data);
+      self.message = data;
+      $scope.$digest();
+      socket.emit('my other event', { my: 'data' });
     });
-
   });
