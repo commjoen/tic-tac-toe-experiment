@@ -20,20 +20,21 @@ server.listen(config.port, config.ip, function () {
   console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
 });
 
-// socket.io
-var io = require('socket.io')(server);
-io.on('connection', function (socket) {
-  socket.join('tictactoe');
+// Setup swarm
+var url = require('url');
+var ws = require('ws');
+var Swarm = require('swarm');
+require('./models/Position.js');
 
-//  socket.on('my other event', function (data) {
-//    console.log(data);
-//  });
+var fileStorage = new Swarm.FileStorage('storage');
+var swarmHost = new Swarm.Host('swarm~nodejs', 0, fileStorage);
+var wsServer = new ws.Server({ server: server });
+
+wsServer.on('connection', function (ws) {
+  var params = url.parse(ws.upgradeReq.url, true);
+  console.log('incomingWS %s', params.path, ws.upgradeReq.connection.remoteAddress);
+  swarmHost.accept(new Swarm.EinarosWSStream(ws), { delay: 50 });
 });
-
-setInterval(function() {
-  io.to('tictactoe').emit('news', Math.random());
-}, 1000);
-
 
 // Expose app
 exports = module.exports = app;
