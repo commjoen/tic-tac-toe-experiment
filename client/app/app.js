@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('ticTacToeExperimentApp', [
+  'famous.angular',
   'ngCookies',
   'ngResource',
   'ngSanitize',
