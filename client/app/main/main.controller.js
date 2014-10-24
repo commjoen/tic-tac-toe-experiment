@@ -15,7 +15,6 @@ angular.module('ticTacToeExperimentApp')
     self.message = '';
 
     mySocket.on('news', function (data) {
-      console.log(data);
       self.message = data;
       mySocket.emit('my other event', { my: 'data' });
     });

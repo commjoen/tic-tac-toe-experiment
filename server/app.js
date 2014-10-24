@@ -12,7 +12,6 @@ var config = require('./config/environment');
 // Setup server
 var app = express();
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
 require('./config/express')(app);
 require('./routes')(app);
 
@@ -29,7 +28,7 @@ io.on('connection', function (socket) {
   }, 1000);
 
   socket.on('my other event', function (data) {
-    console.log(data);
+//    console.log(data);
   });
 });
 
