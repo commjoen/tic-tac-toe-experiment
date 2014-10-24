@@ -1,121 +1,113 @@
 var app = angular.module('ticTacToeExperimentApp');
 
 app.controller('TTTd3Ctrl', ['$scope','$interval', function($scope, $interval){
-console.log("hello world!");
 
+    $scope.gameState = {
+      grid: [
+        ['', 'x', ''],
+        ['o', '', 'x'],
+        ['', 'o', 'x']
+      ],
+      x: 'nameplayer1',
+      o: 'nameplayer2',
+      turn: 'o'};
 
-    $scope.salesData=[
-        {hour: 1,sales: 54},
-        {hour: 2,sales: 66},
-        {hour: 3,sales: 77},
-        {hour: 4,sales: 70},
-        {hour: 5,sales: 60},
-        {hour: 6,sales: 63},
-        {hour: 7,sales: 55},
-        {hour: 8,sales: 47},
-        {hour: 9,sales: 55},
-        {hour: 10,sales: 30}
-    ];
-
-    $interval(function(){
-        var hour=$scope.salesData.length+1;
-        var sales= Math.round(Math.random() * 100);
-        $scope.salesData.push({hour: hour, sales:sales});
-    }, 1000, 10);
+    // $interval(function(){
+    //     var hour=$scope.salesData.length+1;
+    //     var sales= Math.round(Math.random() * 100);
+    //     $scope.salesData.push({hour: hour, sales:sales});
+    // }, 1000, 10);
 }]);
 
-app.directive('linearChart', function($parse, $window){
+app.directive('grid', function($parse, $window){
+
+   function toCircleXY(pos) {
+     return (50 + pos * 100);
+   }
+
+   function toCrossXY(pos) {
+     return 100 + (pos * 100);
+   }
+
    return{
       restrict:'EA',
-      template:"<svg width='850' height='200'></svg>",
-       link: function(scope, elem, attrs){
-           var exp = $parse(attrs.chartData);
-
-           var salesDataToPlot=exp(scope);
-           var padding = 20;
-           var pathClass="path";
-           var xScale, yScale, xAxisGen, yAxisGen, lineFun;
-
+      template:"<svg width='300' height='300'></svg>",
+        link: function(scope, elem, attrs) {
+          
+           var exp = $parse(attrs.gridData);
+           var gridData = exp(scope);
            var d3 = $window.d3;
-           var rawSvg=elem.find('svg');
+           var rawSvg = elem.find('svg');
            var svg = d3.select(rawSvg[0]);
 
-           scope.$watchCollection(exp, function(newVal, oldVal){
-               salesDataToPlot=newVal;
-               redrawLineChart();
-           });
+          var x = d3.scale.identity().domain([0,300]);
+          var y = d3.scale.identity().domain([0,300]);
+ 
+// scope.$watchCollection(exp, function(newVal, oldVal){
+//                salesDataToPlot=newVal;
+//                redrawLineChart();
+//            });
 
-           function setChartParameters(){
+          svg.selectAll("line.x")
+            .data(x.ticks(3))
+            .enter().append("line")
+            .attr("class", "x")
+            .attr("x1", x)
+            .attr("x2", x)
+            .attr("y1", 0)
+            .attr("y2", 300)
+            .style("stroke", "#ccc"); 
+          
+            svg.selectAll("line.y")
+              .data(y.ticks(3))
+              .enter().append("line")
+              .attr("class", "y")
+              .attr("x1", 0)
+              .attr("x2", 300)
+              .attr("y1", y)
+              .attr("y2", y)
+              .style("stroke", "#ccc"); 
 
-               xScale = d3.scale.linear()
-                   .domain([salesDataToPlot[0].hour, salesDataToPlot[salesDataToPlot.length-1].hour])
-                   .range([padding + 5, rawSvg.attr("width") - padding]);
+            var circleData = [];
+            for(var y=0; y<3; y++) {
+              for(var x=0; x<3; x++) {
+                if(gridData[y][x] === "o") {
+                  circleData.push({x: toCircleXY(x), y: toCircleXY(y)})
+                }
+              }
+            }
+ 
+            var circles = svg.selectAll("circle")
+                      .data(circleData)
+                      .enter()
+                      .append("circle");
 
-               yScale = d3.scale.linear()
-                   .domain([0, d3.max(salesDataToPlot, function (d) {
-                       return d.sales;
-                   })])
-                   .range([rawSvg.attr("height") - padding, 0]);
+            var circleAttributes = circles
+                   .attr("cx", function (d) { return d.x; })
+                   .attr("cy", function (d) { return d.y; })
+                   .attr("r", 30)
+                   .style("fill", "purple");
 
-               xAxisGen = d3.svg.axis()
-                   .scale(xScale)
-                   .orient("bottom")
-                   .ticks(salesDataToPlot.length - 1);
+            var crossData = [];
+            for(var y=0; y<3; y++) {
+              for(var x=0; x<3; x++) {
+                if(gridData[y][x] === "x") {
+                  crossData.push({x: toCrossXY(x), y: toCrossXY(y)})
+                }
+              }
+            }
 
-               yAxisGen = d3.svg.axis()
-                   .scale(yScale)
-                   .orient("left")
-                   .ticks(5);
-
-               lineFun = d3.svg.line()
-                   .x(function (d) {
-                       return xScale(d.hour);
-                   })
-                   .y(function (d) {
-                       return yScale(d.sales);
-                   })
-                   .interpolate("basis");
-           }
-         
-         function drawLineChart() {
-
-               setChartParameters();
-
-               svg.append("svg:g")
-                   .attr("class", "x axis")
-                   .attr("transform", "translate(0,180)")
-                   .call(xAxisGen);
-
-               svg.append("svg:g")
-                   .attr("class", "y axis")
-                   .attr("transform", "translate(20,0)")
-                   .call(yAxisGen);
-
-               svg.append("svg:path")
-                   .attr({
-                       d: lineFun(salesDataToPlot),
-                       "stroke": "blue",
-                       "stroke-width": 2,
-                       "fill": "none",
-                       "class": pathClass
-                   });
-           }
-
-           function redrawLineChart() {
-
-               setChartParameters();
-
-               svg.selectAll("g.y.axis").call(yAxisGen);
-
-               svg.selectAll("g.x.axis").call(xAxisGen);
-
-               svg.selectAll("."+pathClass)
-                   .attr({
-                       d: lineFun(salesDataToPlot)
-                   });
-           }
-
-           drawLineChart();
-       }
+            var cross_shape = function(cross) {
+                var points = [ [cross.x,cross.y], [cross.x - 100, cross.y - 100], [cross.x - 50, cross.y - 50], [cross.x, cross.y - 100], [cross.x -100, cross.y]];
+                return d3.svg.line()(points);
+              };
+             
+            svg.selectAll("path")
+              .data(crossData).enter().append("svg:path")
+              .attr("d", cross_shape)
+              .attr("stroke", "green")
+              .attr("stroke-width", 2)
+              .attr("fill", "none");
+        }
    };
-});
+});     
