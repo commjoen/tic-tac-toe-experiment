@@ -74,18 +74,21 @@ app.directive('grid', function($parse, $window){
           var circles = svg.selectAll("circle")
               .data(circleData)
               .enter()
-              .append("circle");
-
-          var circleAttributes = circles
-             .attr("cx", function (d) { return d.x; })
-             .attr("cy", function (d) { return d.y; })
-             .attr("r", 30)
-             .style("fill", "purple");
+              .append("circle")
+              .attr("cx", function (d) { return d.x; })
+              .attr("cy", function (d) { return d.y; })
+              .attr("r", 30)
+              .style("fill", "purple");
 
           var crossData = filterData(gridData, "x", toCrossXY);
 
           var cross_shape = function(cross) {
-            var points = [ [cross.x,cross.y], [cross.x - 100, cross.y - 100], [cross.x - 50, cross.y - 50], [cross.x, cross.y - 100], [cross.x -100, cross.y]];
+            var points = [ [cross.x,cross.y], 
+              [cross.x - 100, cross.y - 100], 
+              [cross.x - 50, cross.y - 50], 
+              [cross.x, cross.y - 100], 
+              [cross.x -100, cross.y]];
+            
             return d3.svg.line()(points);
           };
              
