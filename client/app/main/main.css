@@ -56,4 +56,7 @@
     box-sizing: border-box;
     border: 2px white;
     text-align: center;
+    font-family: Helvetica-Light;
+    font-size: 30px;
+    color: white;
 }
