@@ -23,6 +23,18 @@ app.directive('grid', function($parse, $window){
      return 100 + (pos * 100);
    }
 
+   function filterData(gridData, player, xyConverter) {
+     var data = [];
+     for(var y=0; y<3; y++) {
+       for(var x=0; x<3; x++) {
+         if(gridData[y][x] === player) {
+           data.push({x: xyConverter(x), y: xyConverter(y)});
+         }
+       }
+     }
+     return data;      
+   }
+
    return{
       restrict:'EA',
       template:"<svg width='300' height='300'></svg>",
@@ -57,37 +69,26 @@ app.directive('grid', function($parse, $window){
             .attr("y2", y)
             .style("stroke", "#ccc"); 
 
-          var circleData = [];
-          for(var y=0; y<3; y++) {
-            for(var x=0; x<3; x++) {
-              if(gridData[y][x] === "o") {
-                circleData.push({x: toCircleXY(x), y: toCircleXY(y)})
-              }
-            }
-          }
+          var circleData = filterData(gridData, "o", toCircleXY);
  
           var circles = svg.selectAll("circle")
               .data(circleData)
               .enter()
-              .append("circle");
+              .append("circle")
+              .attr("cx", function (d) { return d.x; })
+              .attr("cy", function (d) { return d.y; })
+              .attr("r", 30)
+              .style("fill", "purple");
 
-          var circleAttributes = circles
-             .attr("cx", function (d) { return d.x; })
-             .attr("cy", function (d) { return d.y; })
-             .attr("r", 30)
-             .style("fill", "purple");
-
-          var crossData = [];
-          for(var y=0; y<3; y++) {
-            for(var x=0; x<3; x++) {
-              if(gridData[y][x] === "x") {
-                crossData.push({x: toCrossXY(x), y: toCrossXY(y)})
-              }
-            }
-          }
+          var crossData = filterData(gridData, "x", toCrossXY);
 
           var cross_shape = function(cross) {
-            var points = [ [cross.x,cross.y], [cross.x - 100, cross.y - 100], [cross.x - 50, cross.y - 50], [cross.x, cross.y - 100], [cross.x -100, cross.y]];
+            var points = [ [cross.x,cross.y], 
+              [cross.x - 100, cross.y - 100], 
+              [cross.x - 50, cross.y - 50], 
+              [cross.x, cross.y - 100], 
+              [cross.x -100, cross.y]];
+            
             return d3.svg.line()(points);
           };
              
