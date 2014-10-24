@@ -1,10 +1,12 @@
 <fa-app style="position: fixed;top: 0;right: 0;bottom: 0;left: 0;">
-    <fa-grid-layout fa-options="{dimensions:[3,3]}">
-        <fa-surface ng-repeat="item in mainCtrl.renderedGameState" style="height:200px;">{{item}}</fa-surface>
-        </fa-modifier>
-    </fa-grid-layout>
-</fa-app>
+    <fa-sequential-layout>
+        <fa-grid-layout fa-options="{dimensions:[3,3]}">
+            <fa-surface ng-repeat="item in mainCtrl.renderedGameState" style="height:200px;">{{item}}</fa-surface>
+        </fa-grid-layout>
 
-<div>
-    {{mainCtrl.message}}
-</div>
+
+        <fa-surface>
+            {{mainCtrl.message}}
+        </fa-surface>
+    </fa-sequential-layout>
+</fa-app>
