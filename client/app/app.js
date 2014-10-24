@@ -4,7 +4,8 @@ angular.module('ticTacToeExperimentApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngRoute'
+  'ngRoute',
+  'btford.socket-io'
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -13,4 +14,7 @@ angular.module('ticTacToeExperimentApp', [
       });
 
     $locationProvider.html5Mode(true);
+  }).
+  factory('mySocket', function (socketFactory) {
+    return socketFactory();
   });
