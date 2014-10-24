@@ -12,12 +12,12 @@
 
             <fa-flexible-layout fa-options="{ratios:[0.4,0.4,0.1], direction:1}" fa-size="[220, undefined]">
                     <fa-modifier fade-in fa-opacity="0.2" opacity-end="1" duration="500">
-                        <fa-surface ng-class="{'active':(mainCtrl.gameState.turn==='x')}" class="gamerTag" fa-size="[200,60]">
+                        <fa-surface fa-background-color="'{{mainCtrl.colorX}}'" class="gamerTag" fa-size="[200,60]">
                             {{mainCtrl.gameState.x}}
                         </fa-surface>
                     </fa-modifier>
                     <fa-modifier fade-in fa-opacity="0.2" opacity-end="1" duration="500">
-                        <fa-surface ng-class="{'active':(mainCtrl.gameState.turn==='o')}"  class="gamerTag" fa-size="[200,60]">
+                        <fa-surface fa-background-color="'{{mainCtrl.colorO}}'"  class="gamerTag" fa-size="[200,60]">
                             {{mainCtrl.gameState.o}}
                         </fa-surface>
                     </fa-modifier>
@@ -29,4 +29,3 @@
         </fa-flexible-layout>
     </fa-app>
 </div>
-{{mainCtrl.gameState.turn}}
