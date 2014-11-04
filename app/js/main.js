@@ -47,11 +47,11 @@ function animate() {
     // note: three.js includes requestAnimationFrame shim
     requestAnimationFrame(animate);
 
-    camera.position.z -= 1.11;
     mesh.rotation.x += 0.01;
     //mesh.rotation.z += 0.01;
     mesh.rotation.y = 6.02;
-
+    camera.position.z -= Math.sin(mesh.rotation.x)*3;
+    camera.position.y = Math.cos(mesh.rotation.y);
     renderer.render(scene, camera);
 
 }
