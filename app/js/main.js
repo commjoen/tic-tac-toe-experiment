@@ -641,7 +641,7 @@ require({
 
     camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.z = 1000;
-    camera.position.z = 500;
+    //camera.position.z = 500;
 
     controls = new THREE.TrackballControls( camera );
 
@@ -661,7 +661,7 @@ require({
 
     scene = new THREE.Scene();
 
-    geometry = new THREE.CubeGeometry(200, 200, 20);
+    geometry = new THREE.CubeGeometry(200, 200, 200);
 
     // changed MeshBasicMaterial to MeshLambertMaterial to allow direction lighting
     material = new THREE.MeshLambertMaterial({
@@ -676,7 +676,7 @@ require({
     directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
     directionalLight.position.set(1, 3, 24).normalize();
     scene.add(directionalLight);
-    var ambientLight = new THREE.AmbientLight(0x000044);
+    var ambientLight = new THREE.AmbientLight(0x444444);
     scene.add(ambientLight);
 
     renderer = new THREE.WebGLRenderer() || new THREE.CanvasRenderer();
